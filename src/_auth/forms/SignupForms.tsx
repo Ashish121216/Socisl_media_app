@@ -13,10 +13,10 @@ import { useUserContext } from "@/context/AuthContext"
 
 const SignupForms = () => {
   const {toast} = useToast();
-  const {checkAuthUser , isLoading : isUserLoading} = useUserContext(); 
+  const {checkAuthUser } = useUserContext(); 
   const navigate = useNavigate();
   const {mutateAsync:createUserAccount, isPending:isCreatingUser} = useCreateUserAccount();
-  const {mutateAsync:signInAccount, isPending:isSigningIn} = useSignInAccount();
+  const {mutateAsync:signInAccount} = useSignInAccount();
    // 1. Define your form.
    const form = useForm<z.infer<typeof SignupValidation>>({
     resolver: zodResolver(SignupValidation),
@@ -40,7 +40,9 @@ const SignupForms = () => {
       password:values.password,
     })
     if(!session){
-      return toast({title:"Sign in Failed. PLease try again. "})
+      return (
+        toast({title:"Sign in Failed. PLease try again. "})
+      )
     }
 
     const isLoggedIn = await checkAuthUser();
@@ -51,7 +53,9 @@ const SignupForms = () => {
     }
     else{
       return
-      toast({title:"Sign up Failed. PLease try again."})
+      (
+        toast({title:"Sign up Failed. PLease try again."})
+      )
     }
   }
 

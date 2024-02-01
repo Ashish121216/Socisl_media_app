@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react'
-import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 import { Button } from '../button'
 import { useSignOutAccount } from '@/lib/react-query/queriesAndMutations'
 import { useUserContext } from '@/context/AuthContext'
@@ -7,7 +6,7 @@ import { sidebarLinks } from '@/constants/inddex'
 import { INavLink } from "@/types/index"
 
 const Leftbar = () => {
-  const { mutate: SignOut , isSuccess} = useSignOutAccount();
+  const { mutate: SignOut } = useSignOutAccount();
   // const navigate = useNavigate();
   const {user} = useUserContext();
   const {pathname} = useLocation();

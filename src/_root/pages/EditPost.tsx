@@ -1,12 +1,12 @@
 import PostForm from '@/components/ui/forms/PostForm';
 import Loader from '@/components/ui/shared/loader';
-import { useGetPostsPostsById } from '@/lib/react-query/queriesAndMutations';
+import { useGetPostById } from '@/lib/react-query/queriesAndMutations';
 import { useParams } from 'react-router-dom'
 
 const EditPost = () => {
   const {id} = useParams();
   if(!id) throw Error
-  const {data : post} = useGetPostsPostsById(id);
+  const {data : post} = useGetPostById(id);
   if(!post){
     return(
       <div className="w-full h-full">

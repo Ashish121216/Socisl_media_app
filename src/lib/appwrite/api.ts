@@ -325,3 +325,20 @@ export async function deletesavePost(savedRecordId:string){
       console.log(error);  
     }
   }
+
+  export async function getAllUser() {
+    try {
+        const allUser = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.userCollectionId,
+        )
+
+        if(!allUser) throw Error;
+        console.log(allUser);
+        return allUser;
+         
+    } catch (error) {
+        console.log(error)
+        console.log("get current")
+    }
+}

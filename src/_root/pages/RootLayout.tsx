@@ -1,7 +1,6 @@
 import Topbar from '@/components/ui/shared/Topbar'
 import Bottombar from '@/components/ui/shared/Bottombar'
 import Leftbar from '@/components/ui/shared/Leftbar'
-import React from 'react'
 import { Outlet } from 'react-router-dom'
 
 const RootLayout = () => {

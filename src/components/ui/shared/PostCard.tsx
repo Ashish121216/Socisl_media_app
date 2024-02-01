@@ -10,6 +10,7 @@ type PostCardProps = {
 
 const PostCard = ({ post }: PostCardProps) => {
   const { user } = useUserContext();
+
   if (!post.creator) return;
   return (
     <div>
@@ -40,7 +41,7 @@ const PostCard = ({ post }: PostCardProps) => {
             <img src="assets/icons/edit.svg" alt="update" />
           </Link>
         </div>
-        <Link to={`/posts/${post.$id}`}>
+        <Link to={`/post-details/${post.$id}`}>
             <div className="small-medium py-5">
               <p>{post.caption}</p>
               <ul className='flex gap-1 mt-2'>

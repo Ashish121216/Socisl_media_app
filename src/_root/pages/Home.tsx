@@ -1,12 +1,10 @@
-import React from 'react'
-import RootLayout from './RootLayout'
 import { usegetrecentposts } from '@/lib/react-query/queriesAndMutations'
 import Loader from '@/components/ui/shared/loader'
 import { Models } from 'appwrite'
 import PostCard from '@/components/ui/shared/PostCard'
 
 const Home = () => {
-  const {data:posts, isPending:ispostsloading , isError : isErrorPosts} = usegetrecentposts();
+  const {data:posts, isPending:ispostsloading } = usegetrecentposts();
   return (
     <div className='flex flex-1'>
       <div className="home-container">

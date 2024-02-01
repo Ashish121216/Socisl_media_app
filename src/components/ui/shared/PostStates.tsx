@@ -1,9 +1,7 @@
-import { useUserContext } from '@/context/AuthContext'
 import { useGetCurrentUser, usedeletesavedpost, uselikedpost, usesavespost } from '@/lib/react-query/queriesAndMutations'
 import { checkIsLiked } from '@/lib/utils'
 import { Models } from 'appwrite'
 import React, { useEffect, useState } from 'react'
-import { record } from 'zod'
 import Loader from './loader'
 
 type PoststatesProps = {
@@ -78,7 +76,7 @@ const PostStates = ({post , userId} : PoststatesProps) => {
                 <img src={issaved
                     ? "assets/icons/saved.svg"
                     :"assets/icons/save.svg"}  
-                    alt="like" 
+                    alt="save" 
                     width={25}
                     height={25}
                     onClick={handleSavePost}

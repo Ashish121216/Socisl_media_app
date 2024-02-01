@@ -27,7 +27,7 @@ const {mutateAsync : editPost ,isPending: isLoadingedit} = useEditPost();
 const {user} = useUserContext();
 const navigate = useNavigate();
 const {toast} = useToast();
-  console.log(post);
+  console.log(post); ``
   const form = useForm<z.infer<typeof Postvalidation>>({
     resolver: zodResolver(Postvalidation),
     defaultValues: {
