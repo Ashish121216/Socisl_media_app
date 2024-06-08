@@ -12,18 +12,22 @@ import { Models } from "appwrite"
 import { useUserContext } from "@/context/AuthContext"
 import { useToast } from "../use-toast"
 import { useNavigate } from "react-router-dom"
-import { useCreatePost } from "@/lib/react-query/queriesAndMutations"
+import { useCreatePost, useEditPost } from "@/lib/react-query/queriesAndMutations"
+import Loader from "../shared/loader"
 
 
 type PostForm = {
   post ?: Models.Document;
+  action :"create" | "edit"
 } 
 
-const PostForm = ({post}:PostForm) => {
+const PostForm = ({post , action}:PostForm) => {
 const {mutateAsync : createPost ,isPending: isLoadingCreate} = useCreatePost();
+const {mutateAsync : editPost ,isPending: isLoadingedit} = useEditPost();
 const {user} = useUserContext();
 const navigate = useNavigate();
 const {toast} = useToast();
+  console.log(post);
   const form = useForm<z.infer<typeof Postvalidation>>({
     resolver: zodResolver(Postvalidation),
     defaultValues: {
@@ -36,17 +40,33 @@ const {toast} = useToast();
  
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof Postvalidation>) {
-    const newPost = await createPost({
-      userId: user.id,
-      ...values
-    })
-    if(!newPost){
-      toast({
-        title:"please try again"
+    if(action === "create"){
+      const newPost = await createPost({
+        userId: user.id,
+        ...values
       })
+      if(!newPost){
+        toast({
+          title:"please try again"
+        })
+      }
+      navigate("/");
     }
-    navigate("/");
+    if(post && action === "edit"){
+      const updatedPost = await editPost({
+        postId : post?.$id,
+        imageId : post?.imageId,
+        imageUrl:post?.imageUrl,
+        ...values,
+      })
+      if(!updatedPost){
+        toast({
+          title:"please try again"
+        })
+    }
+    navigate(`/post-details/${post?.$id}`);
   }
+}
   return (
     <Form {...form}>
     <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-9 w-full max-w-5xl">
@@ -118,7 +138,10 @@ const {toast} = useToast();
       className="shad-button_dark_4">Cancel</Button>
       <Button 
       type="submit"
-      className="shad-button_primary whitespace-nowrap">Submit</Button>
+      className="shad-button_primary whitespace-nowrap"
+      disabled={isLoadingCreate || isLoadingedit}>
+      {isLoadingCreate || isLoadingedit && <Loader/>}
+      {action} Post</Button>
       </div>
     </form>
   </Form>

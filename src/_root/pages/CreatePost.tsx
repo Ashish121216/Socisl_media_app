@@ -1,5 +1,4 @@
 import PostForm from '@/components/ui/forms/PostForm'
-import React from 'react'
 
 const CreatePost = () => {
   return (
@@ -9,7 +8,7 @@ const CreatePost = () => {
           <img src="assets/icons/add-post.svg" alt="add" width={36} height={36}/>
           <h2 className='h3-bold md:h2-bold text-left 2-full'>Create Post</h2>
         </div>
-        <PostForm />
+        <PostForm action='create'/>
       </div>  
     </div>
     

@@ -1,7 +1,6 @@
 import { useUserContext } from '@/context/AuthContext';
 import { formatRelativeTime } from '@/lib/utils';
 import { Models } from 'appwrite'
-import React from 'react'
 import { Link } from 'react-router-dom';
 import PostStates from './PostStates';
 
@@ -36,7 +35,7 @@ const PostCard = ({ post }: PostCardProps) => {
               </div>
             </div>
           </div>
-          <Link to={`/update-post/${post.$id}`}
+          <Link to={`/edit-post/${post.$id}`}
             className={`${user.id !== post.creator.$id && "hidden"}`}>
             <img src="assets/icons/edit.svg" alt="update" />
           </Link>

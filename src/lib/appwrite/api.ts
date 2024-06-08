@@ -1,7 +1,6 @@
-import { INewPost, INewUser } from "@/types";
+import { INewPost, INewUser, IUpdatePost } from "@/types";
 import { account, appwriteConfig, databases, avatars, storage } from "./config";
 import { ID, Query } from "appwrite";
-import { array } from "zod";
 
 export async function createUserAccount(user:INewUser){
     try {
@@ -131,6 +130,25 @@ export async function createPost(post: INewPost) {
   }
 }
   
+export async function editPost(post : IUpdatePost) {
+  try {
+    const editpost = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      post.postId,
+      {
+        caption:post.caption,
+        imageUrl:post.imageUrl,
+        location:post.location,
+        tags:post.tags
+      }
+    )
+    if(!editpost) throw Error;
+    return editpost;
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 export async function uploadFile(file: File) {
     try {
@@ -237,4 +255,73 @@ export async function deletesavePost(savedRecordId:string){
       console.log(error)
     }
 
+  }
+
+  export async function getInfinitePosts({pageParam}: { pageParam: number }){
+    try{
+      const queries : string[] = [Query.orderDesc('$updatedAt'),Query.limit(10)] 
+      if(pageParam){
+        queries.push(Query.cursorAfter(pageParam.toString()))
+      }
+
+      const posts = await databases.listDocuments(
+        appwriteConfig.databaseId,
+        appwriteConfig.postCollectionId,
+        [Query.orderDesc('$updatedAt'),Query.limit(10)]
+      )
+      return posts;
+    }
+    catch(error){
+      console.log(error);
+    }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  export async function searchPosts(SearchTerm : string){
+    console.log(SearchTerm);
+    try{
+      const posts = await databases.listDocuments(
+        appwriteConfig.databaseId,
+        appwriteConfig.postCollectionId,
+        [Query.search('caption', SearchTerm)]
+      )
+      console.log(posts);
+      if(!posts) throw Error;
+      return posts;
+    }
+    catch(error){
+      console.log(error);
+    }
+  }
+  
+  export async function getSavedPosts(id : string){
+    try {
+      const posts = await databases.listDocuments(
+        appwriteConfig.databaseId,
+        appwriteConfig.savesCollectionId,
+        [Query.equal('user',id)]
+      )
+      console.log(posts)
+      if(!posts) throw Error;
+      return posts;
+    } 
+    catch (error) {
+      console.log(error);  
+    }
+  }
+
+  export async function getPostsById(id : string){
+    try {
+      const posts = await databases.getDocument(
+        appwriteConfig.databaseId,
+        appwriteConfig.postCollectionId,
+        id
+      )
+      console.log(posts)
+      if(!posts) throw Error;
+      return posts;
+    } 
+    catch (error) {
+      console.log(error);  
+    }
   }
