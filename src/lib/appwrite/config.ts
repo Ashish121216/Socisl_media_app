@@ -13,7 +13,7 @@ export const appwriteConfig = {
 export const client = new Client();
 
 client.setProject(appwriteConfig.projectId);
-client.setEndpoint('https://cloud.appwrite.io/v1');
+client.setEndpoint('https://socialkid123.netlify.app/');
 
 export const account = new Account(client);
 export const databases = new Databases(client);
