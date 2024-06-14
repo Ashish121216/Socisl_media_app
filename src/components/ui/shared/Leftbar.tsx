@@ -1,4 +1,4 @@
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { Button } from '../button'
 import { useSignOutAccount } from '@/lib/react-query/queriesAndMutations'
 import { useUserContext } from '@/context/AuthContext'
@@ -7,7 +7,7 @@ import { INavLink } from "@/types/index"
 
 const Leftbar = () => {
   const { mutate: SignOut } = useSignOutAccount();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const {user} = useUserContext();
   const {pathname} = useLocation();
   return (
@@ -59,7 +59,12 @@ const Leftbar = () => {
           })}
         </ul>
 
-        <Button variant="ghost" className='shad-button_ghost' onClick={() =>SignOut()}>
+        <Button variant="ghost" className='shad-button_ghost' 
+          onClick={
+            () =>{
+              SignOut()
+              navigate("/sign-in");
+              }}>
         <img
           src="/assets/icons/logout.svg" alt='logout'/>
           <p className='small-medium lg:base-medium'> Logout</p>
