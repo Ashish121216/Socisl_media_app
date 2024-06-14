@@ -10,7 +10,7 @@ import {SigninValidation} from '@/lib/validation/index'
 import Loader from "@/components/ui/shared/loader"
 import { useSignInAccount } from "@/lib/react-query/queriesAndMutations"
 import { useUserContext } from "@/context/AuthContext"
-import { appwriteConfig } from "@/lib/appwrite/config"
+
 
 const SigninForms = () => {
   const {toast} = useToast();
@@ -25,7 +25,6 @@ const SigninForms = () => {
       password:"",
     },
   })
-  console.log("enviroment variables", appwriteConfig);
 // 2. Define a submit handler
   async function onSubmit(values: z.infer<typeof SigninValidation>) {
     const session = await signInAccount({
